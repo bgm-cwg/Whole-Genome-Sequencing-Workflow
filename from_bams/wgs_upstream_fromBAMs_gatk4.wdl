@@ -1,4 +1,4 @@
-import "wgs_upstream_1SampleBAMs_gatk4_2.wdl" as sample_wf
+import "wgs_upstream_1SampleBAMs_gatk4.wdl" as sample_wf
 import "revert_bam.wdl" as reverter
 workflow wgs_upstream 
 {
@@ -17,7 +17,9 @@ workflow wgs_upstream
     
     String tools					
     String base_name					 
-    String res_dir				   
+    String res_dir
+
+    String script_folder				   
     
     Int    bwa_threads								
     Int    samtools_threads
@@ -47,7 +49,7 @@ workflow wgs_upstream
        {
           input:
             filename_arrays = sample_reverted_bams,
-            python_flatten  = "/net/home/isaevt/python/flatten_arrays.py"
+            python_flatten  = script_folder + "/flatten_arrays.py"
        }
 
        call sample_wf.wgs
